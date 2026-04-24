@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Welcome, {{ current_user.name }}</h1>
+<p>Your booked appointments are listed below.</p>
+
+<a href="/book" class="btn">Book New Appointment</a>
+
+<br><br>
+
+<table>
+    <tr>
+        <th>Pet</th>
+        <th>Type</th>
+        <th>Service</th>
+        <th>Date</th>
+        <th>Phone</th>
+    </tr>
+
+    {% for appointment in appointments %}
+    <tr>
+        <td>{{ appointment.pet_name }}</td>
+        <td>{{ appointment.pet_type }}</td>
+        <td>{{ appointment.service }}</td>
+        <td>{{ appointment.date }}</td>
+        <td>{{ appointment.phone }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

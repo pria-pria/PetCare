@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Book Appointment</h2>
+
+<form method="POST">
+    <input type="text" name="pet_name" placeholder="Pet Name" required>
+
+    <select name="pet_type" required>
+        <option value="">Select Pet Type</option>
+        <option>Dog</option>
+        <option>Cat</option>
+        <option>Rabbit</option>
+        <option>Other</option>
+    </select>
+
+    <select name="service" required>
+        <option value="">Select Service</option>
+        <option>Pet Grooming</option>
+        <option>Bath & Dry</option>
+        <option>Haircut</option>
+        <option>Nail Trimming</option>
+        <option>Vet Checkup</option>
+        <option>Vaccination</option>
+        <option>Doctor Consultation</option>
+    </select>
+
+    <input type="date" name="date" required>
+    <input type="tel" name="phone" placeholder="Phone Number" required>
+    <textarea name="message" placeholder="Any special note"></textarea>
+
+    <button class="btn" type="submit">Book Now</button>
+</form>
+
+{% endblock %}

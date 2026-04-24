@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PetCare</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/pet.png') }}">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f8fbff;
+            color: #222;
+        }
+
+        header {
+            background: #0d6efd;
+            color: white;
+            padding: 18px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 22px;
+            font-weight: bold;
+        }
+
+        .container {
+            padding: 50px 70px;
+        }
+
+        .hero {
+            background: linear-gradient(to right, #dff1ff, #ffffff);
+            padding: 80px 70px;
+            border-radius: 0 0 40px 40px;
+        }
+
+        .hero h1 {
+            font-size: 50px;
+            color: #084298;
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 600px;
+        }
+
+        .btn {
+            background: #ff9800;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cards {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            width: 280px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        form {
+            background: white;
+            padding: 35px;
+            max-width: 520px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        table {
+            width: 100%;
+            background: white;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        footer {
+            background: #084298;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 60px;
+        }
+
+        .flash {
+            background: #e7f5e7;
+            padding: 12px;
+            border-radius: 8px;
+            color: green;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h2>🐾 PetCare</h2>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/grooming">Grooming</a>
+            <a href="/vetcare">Vet Care</a>
+
+            {% if current_user.is_authenticated %}
+            <a href="/book">Book</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout">Logout</a>
+            {% else %}
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="flash">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <p>© 2026 PetCare. Loving care for your pets.</p>
+    </footer>
+
+</body>
+
+</html>

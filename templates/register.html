@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Create Account</h2>
+
+<form method="POST">
+    <input type="text" name="name" placeholder="Full Name" required>
+    <input type="email" name="email" placeholder="Email Address" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <button class="btn" type="submit">Register</button>
+    <a href="/login" style="text-decoration: none; color: inherit;">Already a User?</a>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="hero">
+    <h1>Premium Care For Your Lovely Pets</h1>
+    <p>Book grooming, vet checkups, vaccination, bathing, haircut, and full pet care services online.</p>
+    <a href="/book" class="btn">Book Appointment</a>
+</div>
+
+<h2>Our Services</h2>
+
+<div class="cards">
+    <div class="card">
+        <a href="/grooming" style="text-decoration: none; color: inherit;">
+            <h3>Pet Grooming</h3>
+            <p>Bathing, haircut, nail trimming and styling.</p>
+        </a>
+    </div>
+
+    <div class="card">
+        <a href="/vetcare" style="text-decoration: none; color: inherit;">
+            <h3>Vet Care</h3>
+            <p>Health checkups, vaccination and doctor consultation.</p>
+        </a>
+    </div>
+
+    <div class="card">
+        <h3>Pet Boarding</h3>
+        <p>Safe and comfortable stay for your pets.</p>
+    </div>
+</div>
+
+{% endblock %}

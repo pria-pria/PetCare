@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>All Appointments</h1>
+
+<table>
+    <tr>
+        <th>Owner</th>
+        <th>Pet</th>
+        <th>Pet Type</th>
+        <th>Service</th>
+        <th>Date</th>
+        <th>Phone</th>
+        <th>Message</th>
+    </tr>
+
+    {% for appointment in appointments %}
+    <tr>
+        <td>{{ appointment.owner_name }}</td>
+        <td>{{ appointment.pet_name }}</td>
+        <td>{{ appointment.pet_type }}</td>
+        <td>{{ appointment.service }}</td>
+        <td>{{ appointment.date }}</td>
+        <td>{{ appointment.phone }}</td>
+        <td>{{ appointment.message }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
