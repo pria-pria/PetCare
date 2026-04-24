@@ -3,3 +3,6 @@ flask-sqlalchemy
 flask-login
 gunicorn
 werkzeug
+openai
+beautifulsoup4
+requests

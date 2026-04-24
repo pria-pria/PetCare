@@ -1,11 +1,21 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+import os
+from dotenv import load_dotenv
+from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import (
     LoginManager, UserMixin, login_user,
     logout_user, login_required, current_user
 )
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_required
+from openai import OpenAI
+import requests
+from bs4 import BeautifulSoup
+
+load_dotenv()
+api_key = os.getenv("OPENAI_API_KEY")
+print("API KEY LOADED =", api_key[:10] if api_key else None)
+
+client = OpenAI(api_key=api_key)
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "petcare_secret_key"
@@ -17,6 +27,7 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.login_view = "login"
 login_manager.init_app(app)
+
 
 
 class User(UserMixin, db.Model):
@@ -38,9 +49,56 @@ class Appointment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
 
+
+WEBSITE_LINK = "https://petcare-ixn0.onrender.com"
+
+def get_website_content():
+    try:
+        response = requests.get(WEBSITE_LINK, timeout=10)
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        for tag in soup(["script", "style"]):
+            tag.decompose()
+
+        text = soup.get_text(separator=" ", strip=True)
+        return text[:6000]
+
+    except Exception as e:
+        print("Website read error:", e)
+        return "PetCare offers grooming, vet care, vaccination and appointment booking."
+
+
+@app.route("/chatbot", methods=["POST"])
+@login_required
+def chatbot():
+    try:
+        data = request.get_json()
+        user_message = data.get("message", "")
+
+        if not user_message:
+            return jsonify({"reply": "Please type a message."})
+
+        response = client.responses.create(
+            model="gpt-5.4-mini",
+            instructions="""
+            You are PetCare Assistant.
+            Answer about pet grooming, vet care, vaccination, booking and pet care.
+            Keep answers short and friendly.
+            """,
+            input=user_message
+        )
+
+        return jsonify({"reply": response.output_text})
+
+    except Exception as e:
+        print("CHATBOT ERROR:", e)
+        return jsonify({
+            "reply": "Sorry, chatbot is not working right now. Please check API key or server logs."
+        })
+
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return db.session.get(User, int(user_id))
 
 
 @app.route("/")
@@ -151,7 +209,10 @@ def logout():
     logout_user()
     return redirect(url_for("home"))
 
+
+
 if __name__ == "__main__":
+    
     with app.app_context():
         db.create_all()
-    app.run()
+    app.run(debug=True)
